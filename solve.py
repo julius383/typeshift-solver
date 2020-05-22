@@ -9,6 +9,7 @@ import cv2
 import subprocess
 import time
 
+TRANSLATION = str.maketrans("01", "OI")
 
 fp = open("/usr/share/dict/words", "r")
 RAW_WORDS = set(map(lambda x: str.lower(str.strip(x)), fp.readlines()))
@@ -23,7 +24,7 @@ def ranked_solutions(puzzle, candidates):
     """
     puzzle = list(map(lambda x: list(map(str.lower, x)), puzzle))
     rs = dict()
-    for c in combinations(candidates, min(len(puzzle) - 1, len(candidates))):
+    for c in combinations(candidates, max(len(puzzle) - 1, len(candidates))):
         score = 0
         for i, v in enumerate(puzzle):
             score += len(set(v) - set([x[i] for x in c]))
@@ -81,7 +82,7 @@ def play(pz):
     """
     puzzle = [[x[0] for x in i] for i in pz]
     solutions = solve(puzzle)  # find the possible solutions
-    best = solutions.pop()  # extract the best one
+    best = sorted(solutions.pop())  # extract the best one
     print("Solution: ", ["".join(i) for i in best])
     mid = [i[-2] for i in pz]
     res = []
@@ -122,6 +123,11 @@ def main():
     resized = crop_to_puzzle(im)
     cols, gray = find_text_regions(resized)
     puzzle_grid = extract_puzzle(cols, gray)
+
+    # basic error correction
+    puzzle_grid = [
+        [(x[0].translate(TRANSLATION), y) for x, y in i] for i in puzzle_grid
+    ]
     pprint(puzzle_grid)
     mid = [i[-2][1] for i in puzzle_grid]
     prog = play(puzzle_grid)
