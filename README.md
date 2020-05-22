@@ -1,6 +1,11 @@
 # Typeshift solver
 A solver for the mobile game ![Typeshift](https://play.google.com/store/apps/details?id=com.noodlecake.typeshift&hl=en_US) using OpenCV, Tesseract and ADB
 
+
+## Demo
+
+![Typeshift solver demo](demo.gif)
+
 ## Requirements
 
 You need to have Android Debugging Bridge installed along with any relevant drivers for your phone. You also need
