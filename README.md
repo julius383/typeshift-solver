@@ -9,7 +9,7 @@ to have Python installed along with the packages:
 * opencv
 * pytesseract
 * imutils
-* kanren (entirely optional if you want to use the other __slow_ solver)
+* kanren (entirely optional if you want to use the other __slow__ solver)
 
 ## Running
 
@@ -24,3 +24,5 @@ to have Python installed along with the packages:
   process
 * The solver relies on you supplying a sufficiently large word list in my case I was able to use the one at `/usr/share/dict/words` which comes from installing the `words` package on Arch Linux. The file can be found ![here](https://ftp.gnu.org/gnu/aspell/dict/0index.html)
 * The solver is only for the puzzles that involve alinging characters in a column to form a word.
+* Instead of entering a certain amount of words it should instead keep entering
+  words until the puzzle is solved.

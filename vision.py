@@ -40,9 +40,15 @@ def find_text_regions(resized_image):
         M = cv2.moments(c)
         cX = int(M["m10"] / M["m00"])
         cY = int(M["m01"] / M["m00"])
-        col = cols.get(cX, [])
+        key = cX
+        maybe_key = [cX - i for i in range(1, 6)] + [cX + i for i in range(1, 6)]
+        for k in maybe_key:
+            if k in cols.keys():
+                key = k
+                break
+        col = cols.get(key, [])
         col.append((c, (cX, cY)))
-        cols[cX] = col
+        cols[key] = col
     cols = dict(sorted(cols.items()))
     return cols, gray
 

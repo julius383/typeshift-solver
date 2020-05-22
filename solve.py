@@ -23,7 +23,7 @@ def ranked_solutions(puzzle, candidates):
     """
     puzzle = list(map(lambda x: list(map(str.lower, x)), puzzle))
     rs = dict()
-    for c in combinations(candidates, len(max(puzzle, key=len))):
+    for c in combinations(candidates, min(len(puzzle) - 1, len(candidates))):
         score = 0
         for i, v in enumerate(puzzle):
             score += len(set(v) - set([x[i] for x in c]))
@@ -82,6 +82,7 @@ def play(pz):
     puzzle = [[x[0] for x in i] for i in pz]
     solutions = solve(puzzle)  # find the possible solutions
     best = solutions.pop()  # extract the best one
+    print("Solution: ", ["".join(i) for i in best])
     mid = [i[-2] for i in pz]
     res = []
     for word in best:
@@ -104,8 +105,8 @@ def send_commands(prog, mid):
     for p in prog:
         for k, c in enumerate(p):
             x1, y1 = mid[k]
-            x2, y2 = x1, y1 + (100 * (-1 if c < 0 else 1))
-            positions = map(str, [x1, y1, x2, y2])
+            x2, y2 = x1, y1 + (100 * (-1 if c < 0 else c))
+            positions = list(map(str, [x1, y1, x2, y2]))
             for _ in range(abs(c)):
                 subprocess.run(["adb", "shell", "input", "swipe", *positions])
                 time.sleep(0.5)
